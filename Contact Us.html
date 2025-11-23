@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="km">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-km="ប្រអប់យោបល់" data-ko="댓글 상자" data-en="Comments Box">
+      ប្រអប់យោបល់
+    </title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <style>
+      /* --- CSS សម្រាប់រចនាប័ទ្ម Glassmorphism & Flat --- */
+      :root {
+        --primary-color: #3498db;
+        --secondary-color: #2ecc71;
+        --bg-color: #2c2222;
+        --card-bg: #3b2929;
+        --text-color: #f3f3f3;
+        --border-color: #dddddd;
+        --glass-bg: rgba(255, 255, 255, 0.4);
+        --glass-border: rgba(255, 255, 255, 0.7);
+        --navbar-text: #2c3e50;
+        --tooltip-bg: #333;
+        --tooltip-text: #fff;
+      }
+
+      body {
+        font-family: "Khmer OS Content", "Arial", sans-serif;
+        background-image: url("https://picsum.photos/1920/1080?random=1");
+        background-size: cover;
+        background-attachment: fixed;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+
+      .navbar {
+        width: 100%;
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        background-color: var(--glass-bg);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--glass-border);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .navbar-brand {
+        color: var(--navbar-text);
+        font-size: 24px;
+        font-weight: 800;
+        text-decoration: none;
+        text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
+      }
+      .navbar-links {
+        display: flex;
+        align-items: center;
+      }
+      .navbar-link {
+        color: var(--navbar-text);
+        text-decoration: none;
+        margin-left: 30px;
+        font-size: 15px;
+        font-weight: 600;
+        padding: 5px 0;
+        transition: color 0.2s, border-bottom 0.2s;
+        border-bottom: 3px solid transparent;
+      }
+      .navbar-link:hover {
+        color: var(--primary-color);
+        border-bottom: 3px solid var(--primary-color);
+      }
+      .lang-switcher-nav {
+        margin-left: 30px;
+        display: flex;
+      }
+      .lang-btn {
+        background-color: transparent;
+        color: var(--navbar-text);
+        border: 1px solid transparent;
+        padding: 5px 8px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.2s;
+        line-height: 1.2;
+        margin-left: 5px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+      }
+      .lang-btn:hover:not(.active) {
+        background-color: rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+      }
+      .lang-btn.active {
+        background-color: var(--primary-color);
+        color: rgb(46, 25, 25);
+        border: 1px solid var(--primary-color);
+        font-weight: bold;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+      .flag-icon {
+        width: 20px;
+        height: 15px;
+        line-height: 1;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+        margin-right: 5px;
+        border-radius: 2px;
+        background-size: cover;
+        background-position: center;
+        border: 1px solid #aaa;
+        display: inline-block;
+      }
+
+      .main-content {
+        padding-top: 80px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding: 80px 20px 20px 20px;
+      }
+      .contact-card {
+        width: 100%;
+        max-width: 600px;
+        padding: 40px;
+        border-radius: 8px;
+        background-color: rgba(59, 31, 31, 0.85);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        border: 1px solid var(--glass-border);
+      }
+      #disqus_thread {
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+
+      h2 {
+        text-align: center;
+        color: var(--text-color);
+        margin-bottom: 30px;
+        font-size: 28px;
+        font-weight: 700;
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 10px;
+      }
+      .welcome-section {
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--border-color);
+      }
+      .shadow-text {
+        font-size: 32px;
+        font-weight: 900;
+        color: var(--primary-color);
+        margin-bottom: 25px;
+        text-shadow: none;
+      }
+
+      /* --- Social Icon Styles --- */
+      .social-icons {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 30px;
+      }
+
+      .icon {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: var(--icon-color, #555);
+        position: relative;
+        text-decoration: none;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: all 0.2s ease;
+        font-size: 18px;
+      }
+      .icon:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Tooltip Styles (រក្សាទុក) */
+      .icon[data-tooltip]::before,
+      .icon[data-tooltip]::after {
+        position: absolute;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+        z-index: 10;
+      }
+      .icon[data-tooltip]::before {
+        content: attr(data-tooltip);
+        padding: 5px 8px;
+        background: var(--tooltip-bg);
+        color: var(--tooltip-text);
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+        white-space: nowrap;
+        bottom: 100%;
+        margin-bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%) translateY(5px);
+      }
+      .icon[data-tooltip]::after {
+        content: "";
+        border: 6px solid transparent;
+        border-top-color: var(--tooltip-bg);
+        bottom: 100%;
+        margin-bottom: 4px;
+        left: 50%;
+        transform: translateX(-50%) translateY(5px);
+      }
+      .icon:hover[data-tooltip]::before,
+      .icon:hover[data-tooltip]::after {
+        visibility: visible;
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      /* --- CSS សម្រាប់ Responsive Map --- */
+      .map-responsive {
+        /* កំណត់ទំហំ 0 និង padding-bottom ជាភាគរយដើម្បីបង្កើត Aspect Ratio */
+        overflow: hidden;
+        padding-bottom: 56.25%; /* សម្រាប់សមាមាត្រ 16:9 */
+        position: relative;
+        height: 0;
+        margin-bottom: 20px; /* បន្ថែម margin ដើម្បីញែកពីផ្នែកខាងក្រោម */
+
+        /* *** កែប្រែ: បន្ថែម min-height 200px ដើម្បីគោរពតាមលក្ខខណ្ឌ Google Maps API *** */
+        min-height: 200px;
+      }
+
+      .map-responsive iframe {
+        /* ធ្វើឱ្យ iframe ពេញផ្ទៃ container ទាំងស្រុង */
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+      }
+      /* --- បញ្ចប់ CSS សម្រាប់ Responsive Map --- */
+
+      /* Icon colors (កំណត់ពណ៌អក្សរ/Icon ខាងក្នុង) */
+      .icon.facebook {
+        background-color: #3b5998;
+        color: white;
+      }
+      .icon.twitter {
+        background-color: #00acee;
+        color: white;
+      }
+      .icon.youtube {
+        background-color: #c4302b;
+        color: white;
+      }
+      .icon.instagram {
+        background-color: #e1306c;
+        color: white;
+      }
+      .icon.linkedin {
+        background-color: #0e76a8;
+        color: white;
+      }
+      .icon.tiktok {
+        background-color: #010101;
+        color: white;
+      }
+      .icon.telegram {
+        background-color: #0088cc;
+        color: white;
+      }
+      .icon.line {
+        background-color: #00c300;
+        color: white;
+      }
+      .icon.kakao {
+        background-color: #ffeb00;
+        color: #333;
+      } /* ពណ៌ផ្ទុយសម្រាប់ Kakao */
+      .icon.wechat {
+        background-color: #7bb32e;
+        color: white;
+      }
+      .icon.phone {
+        background-color: #28a745;
+        color: white;
+      }
+      .icon.mail {
+        background-color: #dc3545;
+        color: white;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .navbar {
+          flex-direction: column;
+          padding: 10px 15px;
+          align-items: flex-start;
+        }
+        .navbar-brand {
+          margin-bottom: 10px;
+          font-size: 20px;
+        }
+        .main-content {
+          padding: 140px 15px 20px 15px;
+        }
+        .contact-card {
+          padding: 25px;
+        }
+        /* លាក់ Tooltip លើ Mobile */
+        .icon[data-tooltip]::before,
+        .icon[data-tooltip]::after {
+          display: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="index.html" class="navbar-brand">
+        <span
+          data-km="គេហទំព័ររបស់ខ្ញុំ"
+          data-ko="내 웹사이트"
+          data-en="My Website"
+          >គេហទំព័ររបស់ខ្ញុំ</span
+        >
+      </a>
+      <div class="navbar-links">
+        <a
+          href="index.html"
+          class="navbar-link"
+          data-km="ទំព័រដើម"
+          data-ko="홈"
+          data-en="Home"
+          >ទំព័រដើម</a
+        >
+        <a
+          href="AboutUs.html"
+          class="navbar-link"
+          data-km="អំពីយើង"
+          data-ko="회사 소개"
+          data-en="About Us"
+          >អំពីយើង</a
+        >
+        <a
+          href="Contact Us.html"
+          class="navbar-link"
+          data-km="ទំនាក់ទំនង"
+          data-ko="문의"
+          data-en="Contact"
+          >ទំនាក់ទំនង</a
+        >
+
+        <div class="lang-switcher-nav">
+          <button class="lang-btn active" data-lang="km">
+            <span class="flag-icon"></span>
+            ខ្មែរ
+          </button>
+          <button class="lang-btn" data-lang="ko">
+            <span class="flag-icon"></span>
+            한국어
+          </button>
+          <button class="lang-btn" data-lang="en">
+            <span class="flag-icon"></span>
+            English
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div class="main-content">
+      <div class="contact-card">
+        <div class="welcome-section">
+          <div
+            class="shadow-text"
+            data-km="សូមស្វាគមន៍!"
+            data-ko="환영합니다!"
+            data-en="Welcome!"
+          >
+            សូមស្វាគមន៍!
+          </div>
+
+          <div class="social-icons">
+            <a
+              href="#"
+              class="icon facebook"
+              data-title-km="ហ្វេសប៊ុក"
+              data-title-ko="페이스북"
+              data-title-en="Facebook"
+            >
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a
+              href="#"
+              class="icon twitter"
+              data-title-km="ធ្វីតទ័រ"
+              data-title-ko="트위터"
+              data-title-en="Twitter"
+            >
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a
+              href="#"
+              class="icon youtube"
+              data-title-km="យូធូប"
+              data-title-ko="유튜브"
+              data-title-en="YouTube"
+            >
+              <i class="fab fa-youtube"></i>
+            </a>
+            <a
+              href="#"
+              class="icon instagram"
+              data-title-km="អ៉ីនស្តាក្រាម"
+              data-title-ko="인스타그램"
+              data-title-en="Instagram"
+            >
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a
+              href="#"
+              class="icon linkedin"
+              data-title-km="លីងខេឌីន"
+              data-title-ko="링크드인"
+              data-title-en="LinkedIn"
+            >
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a
+              href="#"
+              class="icon tiktok"
+              data-title-km="ទិកតុក"
+              data-title-ko="틱톡"
+              data-title-en="TikTok"
+            >
+              <i class="fab fa-tiktok"></i>
+            </a>
+            <a
+              href="#"
+              class="icon telegram"
+              data-title-km="តេលេក្រាម"
+              data-title-ko="텔레그램"
+              data-title-en="Telegram"
+            >
+              <i class="fab fa-telegram-plane"></i>
+            </a>
+            <a
+              href="#"
+              class="icon line"
+              data-title-km="ឡាញ"
+              data-title-ko="라인"
+              data-title-en="LINE"
+            >
+              <i class="fab fa-line"></i>
+            </a>
+            <a
+              href="#"
+              class="icon kakao"
+              data-title-km="កាកាវថក"
+              data-title-ko="카카오톡"
+              data-title-en="KakaoTalk"
+            >
+              <i class="fas fa-comment-dots"></i>
+            </a>
+            <a
+              href="#"
+              class="icon wechat"
+              data-title-km="វីឆាត"
+              data-title-ko="위챗"
+              data-title-en="WeChat"
+            >
+              <i class="fab fa-weixin"></i>
+            </a>
+            <a
+              href="tel:+85512345678"
+              class="icon phone"
+              data-title-km="ទូរស័ព្ទ"
+              data-title-ko="전화 걸기"
+              data-title-en="Call Us"
+            >
+              <i class="fas fa-phone"></i>
+            </a>
+            <a
+              href="mailto:your.email@example.com"
+              class="icon mail"
+              data-title-km="អ៊ីមែល"
+              data-title-ko="이메일 보내기"
+              data-title-en="Send Email"
+            >
+              <i class="fas fa-envelope"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- *** ផែនទីដែលបានបង្កប់ និងឆ្លើយតប *** -->
+        <h2
+          data-km="ទីតាំងរបស់យើង"
+          data-ko="저희 위치"
+          data-en="Our Location"
+          style="margin-top: 0"
+        >
+          ទីតាំងរបស់យើង
+        </h2>
+
+        <div class="map-responsive">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3915.073180972503!2d104.93858557387536!3d11.107923852994064!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31097d932c52b23d%3A0xb01f063531022389!2z4Z6U4Z-J4Z-EIOGehuGfgeGehOGeoOGeveGejyDhnpfhn5Lhnpvhn4HhnoThnpThnrvhnprhnrbhno7hnoLhn5LhnprhnpThn4vhnpHhnpjhn5LhnprhnoThn4s!5e0!3m2!1sen!2skh!4v1762522314345!5m2!1sen!2skh"
+            width="600"
+            height="450"
+            style="border: 0"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          >
+          </iframe>
+        </div>
+        <!-- *** បញ្ចប់ផែនទី *** -->
+
+        <h2
+          data-km="ប្រអប់យោបល់ (Comment)"
+          data-ko="댓글 달기"
+          data-en="Leave A Comment"
+        >
+          ប្រអប់យោបល់ (Comment)
+        </h2>
+
+        <div id="disqus_thread"></div>
+        <script>
+          /**
+           * *** អ្នកត្រូវតែជំនួស YOUR_DISQUS_SHORTNAME ជាមួយ Shortname របស់ Website អ្នក ***
+           */
+          var disqus_config = function () {
+            this.page.url = window.location.href;
+            this.page.identifier = "unique_id_for_this_page_123";
+            this.language = document.documentElement.lang;
+          };
+
+          (function () {
+            var d = document,
+              s = d.createElement("script");
+            // DisQus shortname is provided here. The comment has been changed to reflect the shortname is in the variable s.src.
+            s.src = "https://tesweb74.netlify.app/embed.js"; // កែប្រែ Shortname នេះ
+            s.setAttribute("data-timestamp", +new Date());
+            (d.head || d.body).appendChild(s);
+          })();
+        </script>
+        <noscript>
+          សូមបើក JavaScript ដើម្បីមើលយោបល់ដែលផ្តល់ដោយ Disqus។ Please enable
+          JavaScript to view the comments powered by
+          <a href="https://disqus.com/?ref_noscript">Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+    <script>
+      const languageData = {
+        km: {
+          flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_Cambodia.svg/320px-Flag_of_Cambodia.svg.png",
+        },
+        ko: {
+          flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Flag_of_South_Korea.svg/320px-Flag_of_South_Korea.svg.png",
+        },
+        en: {
+          flag: "https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/320px-Flag_of_the_United_States.svg.png",
+        },
+      };
+
+      // មុខងារកំណត់ Tooltip ទៅតាមភាសា
+      function setSocialTooltips(lang) {
+        const socialIcons = document.querySelectorAll(".social-icons .icon");
+        socialIcons.forEach((icon) => {
+          const tooltipText =
+            icon.dataset[`title${lang}`] || icon.dataset.titleEn;
+          if (tooltipText) {
+            icon.setAttribute("data-tooltip", tooltipText);
+          } else {
+            icon.removeAttribute("data-tooltip");
+          }
+          icon.removeAttribute("title");
+        });
+      }
+
+      function updateElementText(element, newText) {
+        if (
+          element.tagName === "H2" ||
+          element.tagName === "BUTTON" ||
+          element.classList.contains("shadow-text") ||
+          element.classList.contains("navbar-brand") ||
+          element.classList.contains("navbar-link") ||
+          element.tagName === "TITLE"
+        ) {
+          element.textContent = newText;
+        }
+      }
+
+      function switchLanguage(lang) {
+        const langButtons = document.querySelectorAll(".lang-btn");
+        const translatableElements = document.querySelectorAll(
+          "[data-km], [data-ko], [data-en]"
+        );
+
+        langButtons.forEach((btn) => {
+          btn.classList.remove("active");
+          if (btn.dataset.lang === lang) {
+            btn.classList.add("active");
+          }
+          const flagIcon = btn.querySelector(".flag-icon");
+          if (flagIcon) {
+            flagIcon.style.backgroundImage = `url('${
+              languageData[btn.dataset.lang].flag
+            }')`;
+          }
+        });
+
+        translatableElements.forEach((element) => {
+          const newText = element.dataset[lang];
+          if (newText) {
+            updateElementText(element, newText);
+          }
+        });
+
+        // កំណត់ Tooltip ឡើងវិញនៅពេលប្តូរភាសា
+        setSocialTooltips(lang);
+        document.documentElement.lang = lang;
+
+        if (window.DISQUS) {
+          DISQUS.reset({
+            reload: true,
+            config: function () {
+              this.page.url = window.location.href;
+              this.page.identifier = "unique_id_for_this_page_123";
+              this.language = lang;
+            },
+          });
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const langButtons = document.querySelectorAll(".lang-btn");
+
+        langButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            const lang = this.dataset.lang;
+            switchLanguage(lang);
+          });
+        });
+
+        // កំណត់ភាសាដំបូងនៅពេលផ្ទុកទំព័រ
+        switchLanguage("km");
+      });
+    </script>
+  </body>
+</html>

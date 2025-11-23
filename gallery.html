@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="km">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>វិចិត្រសាល - CREATER Projects</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" />
+
+    <style>
+      /* General Body and Font Styles */
+      body {
+        /* Using 'Khmer OS Muol Light' for titles and general Khmer font for body */
+        font-family: 'Khmer OS Muol Light', 'Noto Sans', Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f4f4;
+        color: #333;
+      }
+
+      /* Container for the whole page content */
+      .gallery-page-container {
+        max-width: 1200px;
+        margin: auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      /* --- Navigation Bar Styling (Consistent across pages) --- */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #007bff;
+        padding: 10px 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+      }
+
+      .nav-brand {
+        color: white;
+        font-size: 1.8em;
+        font-weight: bold;
+        padding: 5px 0;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .nav-link {
+        color: white;
+        text-decoration: none;
+        padding: 8px 15px;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+        font-weight: 500;
+      }
+
+      .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .nav-link.active {
+        background-color: #0056b3; /* Darker blue for active page */
+        font-weight: bold;
+      }
+
+      .nav-language {
+        display: flex;
+        gap: 10px;
+        margin-left: 20px;
+      }
+
+      .lang-switch-btn {
+        background: none;
+        border: 1px solid white;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.1s;
+        font-weight: bold;
+        /* NEW: Use flex to align flag icon and text */
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      /* NEW: Style for the Flag Icon inside the button */
+      .lang-switch-btn .flag-icon {
+          margin-right: 6px; /* Space between flag and text */
+          box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+          border-radius: 2px;
+          line-height: 1;
+      }
+
+
+      .lang-switch-btn:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+      }
+
+      .lang-switch-btn.active-lang {
+        background-color: white;
+        color: #007bff;
+      }
+      /* NEW: Style the flag inside the active button */
+      .lang-switch-btn.active-lang .flag-icon {
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.5); /* Maybe a stronger shadow when active */
+      }
+
+
+      /* Responsive adjustments for the menu */
+      @media (max-width: 768px) {
+        .navbar {
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 10px;
+        }
+        .nav-links {
+          flex-direction: column;
+          gap: 5px;
+          margin: 10px 0;
+          width: 100%;
+        }
+        .nav-link {
+          width: 100%;
+          text-align: center;
+        }
+        .nav-language {
+          margin-top: 10px;
+          margin-left: 0;
+          width: 100%;
+          justify-content: space-around;
+        }
+        .lang-switch-btn {
+          flex-grow: 1;
+        }
+      }
+      /* --- END: Navigation Bar Styling --- */
+
+      /* Styling for the main headings */
+      .main-heading {
+        color: #007bff;
+        border-bottom: 2px solid #e0e0e0;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        font-size: 2em;
+        text-align: center;
+      }
+
+      /* Gallery Layout */
+      .gallery-grid {
+        display: grid;
+        /* Responsive columns: 300px min width for each column - This creates the 'three rows' look on desktop */
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-top: 25px;
+        padding: 10px;
+      }
+
+      .gallery-item {
+        background: #f9f9f9;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+        cursor: pointer;
+        position: relative; /* Needed for video icon overlay */
+      }
+
+      .gallery-item:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .gallery-item img {
+        width: 100%;
+        height: 220px; /* Fixed height for consistent look */
+        object-fit: cover;
+        display: block;
+        transition: opacity 0.3s;
+      }
+
+      .gallery-item:hover img {
+        opacity: 0.8;
+      }
+
+      /* Play icon overlay for video project */
+      .gallery-item.video-project::after {
+          content: '▶'; /* Play icon */
+          position: absolute;
+          top: 110px; /* Center vertically on the 220px image */
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 3.5em;
+          color: white;
+          background: rgba(255, 87, 34, 0.8); /* Orange background to match item color */
+          border-radius: 50%;
+          width: 80px;
+          height: 80px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          pointer-events: none; /* Allows click-through to the parent div */
+          opacity: 0.9;
+          transition: all 0.3s;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      }
+      
+      .gallery-item.video-project:hover::after {
+          transform: translate(-50%, -50%) scale(1.1);
+          opacity: 1;
+      }
+      
+      /* END: Play icon overlay */
+
+
+      .caption {
+        padding: 15px;
+        text-align: center;
+      }
+
+      .caption h3 {
+        margin-top: 0;
+        color: #333;
+        font-size: 1.3em;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 5px;
+      }
+
+      .caption p {
+        margin-bottom: 0;
+        color: #007bff;
+        font-size: 0.95em;
+        font-weight: 600;
+      }
+      
+      /* --- Modal/Popup Styling --- */
+      .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.85);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.3s ease;
+      }
+      
+      .modal-overlay.active {
+          opacity: 1;
+          pointer-events: auto;
+      }
+      
+      .modal-content {
+          background: #fff;
+          padding: 20px;
+          border-radius: 10px;
+          max-width: 90%;
+          width: 600px;
+          position: relative;
+          transform: scale(0.9);
+          transition: transform 0.3s ease;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+          max-height: 90vh;
+          overflow-y: auto;
+      }
+      
+      .modal-overlay.active .modal-content {
+          transform: scale(1);
+      }
+      
+      .modal-close {
+          position: absolute;
+          top: 10px;
+          right: 15px;
+          font-size: 24px;
+          font-weight: bold;
+          color: #333;
+          border: none;
+          background: none;
+          cursor: pointer;
+          line-height: 1;
+          transition: color 0.2s;
+      }
+      
+      .modal-close:hover {
+          color: #dc3545;
+      }
+      
+      /* Media Container Styling (for both image and video) */
+      #modal-media-container {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+      
+      #modal-image {
+          width: 100%;
+          height: auto;
+          max-height: 350px;
+          object-fit: cover;
+          border-radius: 8px;
+          display: none; /* Controlled by JS */
+      }
+      
+      /* Responsive video container for 16:9 ratio */
+      .video-responsive {
+          position: relative;
+          padding-bottom: 56.25%; /* 16:9 aspect ratio */
+          height: 0;
+          overflow: hidden;
+          border-radius: 8px; /* Match image rounding */
+          display: none; /* Controlled by JS */
+      }
+      .video-responsive iframe {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border: none;
+      }
+
+      .modal-text-content h2 {
+          color: #007bff;
+          margin-top: 0;
+          border-bottom: 1px solid #eee;
+          padding-bottom: 5px;
+      }
+      
+      .modal-text-content p {
+          color: #555;
+      }
+      
+      @media (max-width: 600px) {
+          .modal-content {
+              width: 95%;
+              padding: 15px;
+          }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="gallery-page-container">
+      <nav class="navbar">
+        <div class="nav-brand">CREATER</div>
+        <div class="nav-links">
+          <a href="index.html" class="nav-link" data-lang-nav="home">ទំព័រដើម</a>
+        
+        <div class="nav-language">
+          <button
+            onclick="setLanguage('km')"
+            class="lang-switch-btn"
+            id="lang-km"
+          >
+            <span class="flag-icon flag-icon-kh"></span>
+            KM
+          </button>
+          <button
+            onclick="setLanguage('ko')"
+            class="lang-switch-btn"
+            id="lang-ko"
+          >
+            <span class="flag-icon flag-icon-kr"></span>
+            KO
+          </button>
+          <button
+            onclick="setLanguage('en')"
+            class="lang-switch-btn"
+            id="lang-en"
+          >
+            <span class="flag-icon flag-icon-us"></span>
+            EN
+          </button>
+        </div>
+      </nav>
+      <section>
+        <h1 id="main-gallery-title" class="main-heading" data-lang-key="main-title">វិចិត្រសាលផលប័ត្រការងាររបស់យើង</h1>
+        <p id="main-gallery-intro" style="text-align: center; color: #666; font-size: 1.1em;" data-lang-key="main-intro">
+          សូមពិនិត្យមើលជម្រើសនៃគម្រោងដែលមានឥទ្ធិពលបំផុតរបស់យើងនៅក្នុងវិស័យផ្សេងៗ។ សូមចុចលើធាតុណាមួយសម្រាប់ព័ត៌មានលម្អិត។ គម្រោងផលិតវីដេអូទីផ្សារមានរូបតំណាង **▶** **ចុចដើម្បីមើលវីដេអូ**។
+        </p>
+
+        <div class="gallery-grid" id="project-gallery-grid">
+          <div 
+            class="gallery-item"
+            onclick="showModal(this)"
+            data-id="1"
+            data-en-title="Next-Gen E-Commerce Platform" 
+            data-en-desc="A fully scalable e-commerce solution built with modern microservices architecture, focusing on rapid checkout and accessibility." 
+            data-km-title="គេហទំព័រពាណិជ្ជកម្មអេឡិចត្រូនិចជំនាន់ថ្មី" 
+            data-km-desc="ដំណោះស្រាយពាណិជ្ជកម្មអេឡិចត្រូនិចដែលអាចពង្រីកបានពេញលេញ ផ្តោតលើការឆែកចេញរហ័ស និងភាពងាយស្រួលប្រើប្រាស់។" 
+            data-ko-title="차세대 전자상거래 플랫폼" 
+            data-ko-desc="신속한 결제와 접근성에 중점을 둔, 최신 마이크로서비스 아키텍처로 구축된 완전 확장 가능한 전자상거래 솔루션입니다."
+            data-image-src="https://placehold.co/400x220/007bff/ffffff?text=E-Commerce+Platform"
+          >
+            <img
+              src="https://placehold.co/400x220/007bff/ffffff?text=E-Commerce+Platform"
+              alt="E-Commerce Platform Project"
+              onerror="this.onerror=null; this.src='https://placehold.co/400x220/007bff/ffffff?text=Image+Error'"
+            />
+            <div class="caption">
+              <h3 data-lang-key="title-1">គេហទំព័រពាណិជ្ជកម្ម</h3>
+              <p data-lang-key="category-1">ការអភិវឌ្ឍន៍គេហទំព័រ & UX Design</p>
+            </div>
+          </div>
+          <div 
+            class="gallery-item"
+            onclick="showModal(this)"
+            data-id="2"
+            data-en-title="AI-Powered Fitness Application" 
+            data-en-desc="A mobile application using machine learning to personalize workout plans and track user progress in real-time." 
+            data-km-title="កម្មវិធីហាត់ប្រាណដែលប្រើ AI" 
+            data-km-desc="កម្មវិធីទូរស័ព្ទប្រើប្រាស់ការរៀនម៉ាស៊ីនដើម្បីកំណត់ផែនការហាត់ប្រាណផ្ទាល់ខ្លួន និងតាមដានវឌ្ឍនភាពអ្នកប្រើប្រាស់ក្នុងពេលជាក់ស្តែង។" 
+            data-ko-title="AI 기반 피트니스 애플리케이션" 
+            data-ko-desc="머신러닝을 사용하여 운동 계획을 개인화하고 실시간으로 사용자 진행 상황을 추적하는 모바일 애플리케이션입니다."
+            data-image-src="https://placehold.co/400x220/28a745/ffffff?text=Mobile+App+Concept"
+          >
+            <img
+              src="https://placehold.co/400x220/28a745/ffffff?text=Mobile+App+Concept"
+              alt="Mobile App Concept"
+              onerror="this.onerror=null; this.src='https://placehold.co/400x220/28a745/ffffff?text=Image+Error'"
+            />
+            <div class="caption">
+              <h3 data-lang-key="title-2">កម្មវិធីហាត់ប្រាណ AI</h3>
+              <p data-lang-key="category-2">ការអភិវឌ្ឍន៍ទូរស័ព្ទ (iOS/Android)</p>
+            </div>
+          </div>
+          <div 
+            class="gallery-item"
+            onclick="showModal(this)"
+            data-id="3"
+            data-en-title="Complete Corporate Rebranding" 
+            data-en-desc="Full overhaul of visual identity, including logo design, color palette, typography, and comprehensive brand guidelines." 
+            data-km-title="ការប្តូរម៉ាកយីហោក្រុមហ៊ុនពេញលេញ" 
+            data-km-desc="ការកែប្រែអត្តសញ្ញាណដែលមើលឃើញពេញលេញ រួមទាំងការរចនាសញ្ញាសម្គាល់ ពណ៌ នីតិវិធីអក្សរ និងគោលការណ៍ណែនាំម៉ាកយីហោដ៏ទូលំទូលាយ។" 
+            data-ko-title="전체 기업 리브랜딩" 
+            data-ko-desc="로고 디자인, 색상 팔레트, 타이포그래피 및 포괄적인 브랜드 가이드라인을 포함한 시각적 아이덴티티의 전체적인 개편."
+            data-image-src="https://placehold.co/400x220/ffc107/333333?text=Branding+Mockup"
+          >
+            <img
+              src="https://placehold.co/400x220/ffc107/333333?text=Branding+Mockup"
+              alt="Branding Mockup"
+              onerror="this.onerror=null; this.src='https://placehold.co/400x220/ffc107/333333?text=Image+Error'"
+            />
+            <div class="caption">
+              <h3 data-lang-key="title-3">ការប្តូរម៉ាកយីហោ</h3>
+              <p data-lang-key="category-3">អត្តសញ្ញាណ & Graphic Design</p>
+            </div>
+          </div>
+          <div 
+            class="gallery-item"
+            onclick="showModal(this)"
+            data-id="4"
+            data-en-title="Real-Time Business Intelligence Dashboard" 
+            data-en-desc="A powerful dashboard solution that processes and visualizes complex business data in real-time for immediate decision-making." 
+            data-km-title="ផ្ទាំងព័ត៌មានប្រតិបត្តិការពេលវេលាពិត" 
+            data-km-desc="ដំណោះស្រាយផ្ទាំងព័ត៌មានដ៏មានឥទ្ធិពល ដែលដំណើរការ និងបង្ហាញទិន្នន័យអាជីវកម្មស្មុគស្មាញក្នុងពេលជាក់ស្តែងសម្រាប់ការសម្រេចចិត្តភ្លាមៗ។" 
+            data-ko-title="실시간 비즈니스 인텔리전스 대시보드" 
+            data-ko-desc="복잡한 비즈니스 데이터를 실시간으로 처리하고 시각화하여 즉각적인 의사 결정을 지원하는 강력한 대시보드 솔루션입니다."
+            data-image-src="https://placehold.co/400x220/dc3545/ffffff?text=Data+Visualization"
+          >
+            <img
+              src="https://placehold.co/400x220/dc3545/ffffff?text=Data+Visualization"
+              alt="Data Visualization Dashboard"
+              onerror="this.onerror=null; this.src='https://placehold.co/400x220/dc3545/ffffff?text=Image+Error'"
+            />
+            <div class="caption">
+              <h3 data-lang-key="title-4">ផ្ទាំងព័ត៌មានទិន្នន័យ BI</h3>
+              <p data-lang-key="category-4">ទិន្នន័យ & ការវិភាគ</p>
+            </div>
+          </div>
+          <div 
+            class="gallery-item video-project"
+            onclick="showModal(this)"
+            data-id="5"
+            data-en-title="Marketing Video Production (Click to Play)" 
+            data-en-desc="Full production cycle for a brand launch video, including scriptwriting, filming, and post-production. Click to view the sample video!" 
+            data-ko-title="마케팅 비디오 제작 (클릭하여 재생)" 
+            data-ko-desc="브랜드 론칭 비디오의 전체 제작 사이클 (스크립트 작성, 촬영, 후반 작업 포함). 샘플 비디오를 보려면 클릭하세요!"
+            data-km-title="ការផលិតវីដេអូទីផ្សារ (ចុចដើម្បីលេង)" 
+            data-km-desc="វដ្តផលិតកម្មពេញលេញសម្រាប់វីដេអូចាប់ផ្តើមម៉ាកយីហោ រួមទាំងការសរសេរស្គ្រីប ការថត និងក្រោយផលិតកម្ម។ សូមចុចដើម្បីមើលវីដេអូគំរូ!"
+            data-image-src="https://placehold.co/400x220/ff5722/ffffff?text=Video+Production"
+            data-video-url="https://www.youtube.com/embed/LM4yHSAVnR0?si=qkDcEjA4HPkzZzSn"
+          >
+            <img
+              src="https://placehold.co/400x220/ff5722/ffffff?text=Video+Production"
+              alt="Marketing Video Production"
+              onerror="this.onerror=null; this.src='https://placehold.co/400x220/ff5722/ffffff?text=Image+Error'"
+            />
+            <div class="caption">
+              <h3 data-lang-key="title-5">ការផលិតវីដេអូទីផ្សារ</h3>
+              <p data-lang-key="category-5">វីដេអូ & ក្រោយផលិតកម្ម</p>
+            </div>
+          </div>
+          <div 
+            class="gallery-item"
+            onclick="showModal(this)"
+            data-id="6"
+            data-en-title="Secure Cloud Infrastructure Migration" 
+            data-en-desc="Transitioning legacy systems to a secure, scalable cloud environment, ensuring zero downtime and compliance." 
+            data-ko-title="보안 클라우드 인프라 마이그레이션" 
+            data-ko-desc="레거시 시스템을 안전하고 확장 가능한 클라우드 환경으로 전환하여 가동 중지 시간을 없애고 규정 준수를 보장합니다."
+            data-km-title="ការផ្លាស់ប្តូរហេដ្ឋារចនាសម្ព័ន្ធពពកប្រកបដោយសុវត្ថិភាព" 
+            data-km-desc="ការផ្លាស់ប្តូរប្រព័ន្ធចាស់ទៅបរិយាកាសពពកដែលមានសុវត្ថិភាព និងអាចធ្វើមាត្រដ្ឋានបាន ធានាការមិនមានការរំខាន និងការអនុលោមតាមច្បាប់។" 
+            data-image-src="https://placehold.co/400x220/6c757d/ffffff?text=Cloud+Migration"
+          >
+            <img
+              src="https://placehold.co/400x220/6c757d/ffffff?text=Cloud+Migration"
+              alt="Cloud Migration"
+              onerror="this.onerror=null; this.src='https://placehold.co/400x220/6c757d/ffffff?text=Image+Error'"
+            />
+            <div class="caption">
+              <h3 data-lang-key="title-6">ហេដ្ឋារចនាសម្ព័ន្ធពពក</h3>
+              <p data-lang-key="category-6">DevOps & សន្តិសុខ</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div id="project-modal" class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal(event)">&times;</button>
+            
+            <div id="modal-media-container">
+              <img id="modal-image" src="" alt="Project Media" />
+              
+              <div id="modal-video-responsive" class="video-responsive">
+                  </div>
+            </div>
+            
+            <div class="modal-text-content">
+              <h2 id="modal-title"></h2>
+              <p id="modal-description"></p>
+            </div>
+          </div>
+    </div>
+
+    <script>
+      // Global variable to track current language. Default is 'km' as requested.
+      let currentLanguage = "km"; 
+
+      // Translations for fixed text elements (e.g., titles and categories)
+      const contentTranslations = {
+          'km': {
+              'nav-home': 'ទំព័រដើម',
+              'nav-about': 'អំពីយើង',
+              'nav-gallery': 'វិចិត្រសាល',
+              'nav-faq': 'សំណួរញឹកញាប់',
+              'nav-contact': 'ទំនាក់ទំនង',
+
+              'main-title': 'វិចិត្រសាលផលប័ត្រការងាររបស់យើង',
+              'main-intro': 'សូមពិនិត្យមើលជម្រើសនៃគម្រោងដែលមានឥទ្ធិពលបំផុតរបស់យើងនៅក្នុងវិស័យផ្សេងៗ។ សូមចុចលើធាតុណាមួយសម្រាប់ព័ត៌មានលម្អិត។ គម្រោងផលិតវីដេអូទីផ្សារមានរូបតំណាង ▶ **ចុចដើម្បីមើលវីដេអូ**។',
+              'title-1': 'គេហទំព័រពាណិជ្ជកម្ម',
+              'category-1': 'ការអភិវឌ្ឍន៍គេហទំព័រ & UX Design',
+              'title-2': 'កម្មវិធីហាត់ប្រាណ AI',
+              'category-2': 'ការអភិវឌ្ឍន៍ទូរស័ព្ទ (iOS/Android)',
+              'title-3': 'ការប្តូរម៉ាកយីហោ',
+              'category-3': 'អត្តសញ្ញាណ & Graphic Design',
+              'title-4': 'ផ្ទាំងព័ត៌មានទិន្នន័យ BI',
+              'category-4': 'ទិន្នន័យ & ការវិភាគ',
+              'title-5': 'ការផលិតវីដេអូទីផ្សារ',
+              'category-5': 'វីដេអូ & ក្រោយផលិតកម្ម',
+              'title-6': 'ហេដ្ឋារចនាសម្ព័ន្ធពពក',
+              'category-6': 'DevOps & សន្តិសុខ',
+          },
+          'en': {
+              'nav-home': 'Home',
+              'nav-about': 'About Us',
+              'nav-gallery': 'Gallery',
+              'nav-faq': 'FAQ',
+              'nav-contact': 'Contact',
+
+              'main-title': 'Our Portfolio of Works',
+              'main-intro': 'Explore a selection of our most impactful projects across various sectors. Click any item for details. The Marketing Video Production project includes a ▶ icon - click to view the video.',
+              'title-1': 'Next-Gen E-Commerce',
+              'category-1': 'Web Development & UX Design',
+              'title-2': 'AI-Powered Fitness App',
+              'category-2': 'Mobile Development (iOS/Android)',
+              'title-3': 'Corporate Rebranding',
+              'category-3': 'Identity & Graphic Design',
+              'title-4': 'BI Dashboard',
+              'category-4': 'Data & Analytics',
+              'title-5': 'Marketing Video Production',
+              'category-5': 'Video & Post-Production',
+              'title-6': 'Cloud Infrastructure',
+              'category-6': 'DevOps & Security',
+          },
+          'ko': {
+              'nav-home': '홈페이지',
+              'nav-about': '회사 소개',
+              'nav-gallery': '갤러리',
+              'nav-faq': '자주 묻는 질문',
+              'nav-contact': '문의하기',
+
+              'main-title': '우리의 프로젝트 포트폴리오',
+              'main-intro': '다양한 분야에서 가장 영향력 있는 프로젝트들을 살펴보세요. 자세한 내용을 보려면 항목을 클릭하세요. 마케팅 비디오 제작 프로젝트에는 ▶ 아이콘이 있습니다. 클릭하여 비디오를 시청하세요.',
+              'title-1': '차세대 전자상거래',
+              'category-1': '웹 개발 및 UX 디자인',
+              'title-2': 'AI 기반 피트니스 앱',
+              'category-2': '모바일 개발 (iOS/Android)',
+              'title-3': '기업 리브랜딩',
+              'category-3': '아이덴티티 및 그래픽 디자인',
+              'title-4': 'BI 대시보드',
+              'category-4': '데이터 및 분석',
+              'title-5': '마케팅 비디오 제작',
+              'category-5': '비디오 및 포스트 프로덕션',
+              'title-6': '클라우드 인프라',
+              'category-6': 'DevOps 및 보안',
+          }
+      };
+
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // Initialize language state. Default to Khmer.
+        setLanguage(currentLanguage);
+      });
+
+      // --- Language Functions ---
+      function getCurrentLanguage() {
+        return currentLanguage;
+      }
+
+      function updateLanguageButtons(langCode) {
+        document.querySelectorAll(".lang-switch-btn").forEach((btn) => {
+          btn.classList.remove("active-lang");
+          if (btn.id === `lang-${langCode}`) {
+            btn.classList.add("active-lang");
+          }
+        });
+      }
+
+      function setLanguage(langCode) {
+        currentLanguage = langCode;
+        updateLanguageButtons(langCode);
+        updateGalleryContent(langCode);
+      }
+
+      function updateGalleryContent(lang) {
+        const texts = contentTranslations[lang];
+        
+        // Update main headings and intro text
+        document.getElementById('main-gallery-title').textContent = texts['main-title'];
+        document.getElementById('main-gallery-intro').innerHTML = texts['main-intro']; // Use innerHTML due to markdown for play icon
+
+        // Update navigation links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            const navKey = link.getAttribute('data-lang-nav');
+            if (navKey && texts[`nav-${navKey}`]) {
+                link.textContent = texts[`nav-${navKey}`];
+            }
+        });
+
+        // Update titles and categories in the grid
+        document.querySelectorAll('.gallery-item .caption').forEach(caption => {
+            const titleElement = caption.querySelector('h3');
+            const categoryElement = caption.querySelector('p');
+            
+            const titleKey = titleElement.getAttribute('data-lang-key');
+            const categoryKey = categoryElement.getAttribute('data-lang-key');
+
+            if (titleKey && texts[titleKey]) {
+                titleElement.textContent = texts[titleKey];
+            }
+            if (categoryKey && texts[categoryKey]) {
+                categoryElement.textContent = texts[categoryKey];
+            }
+        });
+      }
+      // --- END Language Functions ---
+
+
+      // --- Modal Functions (Crucial for Video Playback) ---
+
+      /**
+       * Displays the modal with content relevant to the clicked gallery item.
+       * Handles switching between image and responsive video based on data attributes.
+       * @param {HTMLElement} item - The clicked gallery item div.
+       */
+      function showModal(item) {
+        const lang = getCurrentLanguage();
+        const videoUrl = item.getAttribute('data-video-url');
+        const imageUrl = item.getAttribute('data-image-src');
+        
+        // Get translated content from data attributes based on the current language
+        const title = item.getAttribute(`data-${lang}-title`) || item.getAttribute('data-en-title');
+        const description = item.getAttribute(`data-${lang}-desc`) || item.getAttribute('data-en-desc');
+
+        const imgElement = document.getElementById('modal-image');
+        const videoWrapper = document.getElementById('modal-video-responsive');
+        
+        // 1. Reset media container visibility and clear previous video
+        imgElement.style.display = 'none';
+        videoWrapper.style.display = 'none';
+        videoWrapper.innerHTML = ''; // Clear any previous iframe to prevent errors
+
+        // 2. Load the correct media type
+        if (videoUrl) {
+            // Setup for Video Player
+            videoWrapper.style.display = 'block';
+            // The URL includes '?rel=0&autoplay=1&mute=0' for better user experience
+            // NOTE: Autoplay might be blocked by browsers, but we keep the parameter.
+            videoWrapper.innerHTML = `
+                <iframe 
+                    width="560" 
+                    height="315" 
+                    src="${videoUrl}" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen
+                ></iframe>
+            `;
+        } else {
+            // Setup for Image
+            imgElement.style.display = 'block';
+            imgElement.src = imageUrl;
+        }
+
+        // 3. Set text content (which is already localized via data attributes) and show modal
+        document.getElementById('modal-title').textContent = title;
+        document.getElementById('modal-description').textContent = description;
+        document.getElementById('project-modal').classList.add('active');
+      }
+
+      /**
+       * Closes the modal and stops any playing video.
+       * @param {Event} event - The event that triggered the close.
+       */
+      function closeModal(event) {
+        // Check if the click target is the close button or the dark overlay background
+        if (event.target.classList.contains('modal-overlay') || event.target.classList.contains('modal-close')) {
+            const modal = document.getElementById('project-modal');
+            modal.classList.remove('active');
+
+            // Crucial step: Stop video playback by resetting the iframe source
+            const videoWrapper = document.getElementById('modal-video-responsive');
+            const iframe = videoWrapper.querySelector('iframe');
+            if (iframe) {
+                iframe.src = ''; // This stops the video and prevents background sound
+                videoWrapper.innerHTML = ''; // Clear the container
+            }
+        }
+      }
+      // --- END Modal Functions ---
+    </script>
+  </body>
+</html>

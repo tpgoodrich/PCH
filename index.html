@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="km">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brand Store - Mobile Responsive & 3-Column Footer</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <style>
+      /* ======================== 1. Global & Variables ======================== */
+      :root {
+        --primary-color: #007bff;
+        --secondary-color: #f8f9fa;
+        --background-color: #121430;
+        --dark-text-color: #212529;
+        --card-bg: #ffffff;
+        --shadow-light: rgba(0, 123, 255, 0.3);
+      }
+
+      body {
+        font-family: "Khmer OS Siemreap", "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: var(--background-color);
+        color: var(--secondary-color);
+        min-height: 100vh;
+      }
+
+      /* ======================== 2. Header (Desktop First) ======================== */
+      header {
+        background-color: var(--background-color);
+        padding: 25px 80px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .logo {
+        font-size: 36px;
+        font-weight: 900;
+        color: var(--secondary-color);
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        z-index: 1001;
+      }
+
+      .menu-toggle {
+        display: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: var(--secondary-color);
+        z-index: 1001;
+      }
+
+      nav {
+        display: flex;
+      }
+
+      nav a {
+        color: var(--secondary-color);
+        text-decoration: none;
+        margin-left: 50px;
+        font-size: 17px;
+        font-weight: 500;
+        transition: color 0.3s;
+        position: relative;
+      }
+
+      nav a:hover {
+        color: var(--primary-color);
+      }
+
+      nav a::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background-color: var(--primary-color);
+        left: 0;
+        bottom: -5px;
+        transform: scaleX(0);
+        transition: transform 0.3s ease-in-out;
+      }
+
+      nav a:hover::after {
+        transform: scaleX(1);
+      }
+
+      /* ======================== 3. Hero & Main Content ======================== */
+      .hero-section {
+        background-image: url("https://via.placeholder.com/1600x650/1c1f3c/ffffff?text=Next+Generation+Visual");
+        background-size: cover;
+        background-position: center;
+        height: 650px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+        position: relative;
+        background-blend-mode: overlay;
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+
+      .hero-content {
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+        padding: 40px 60px;
+        border-radius: 12px;
+        max-width: 800px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        animation: fadeIn 1s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .hero-content h1 {
+        font-size: 60px;
+        font-weight: 900;
+        line-height: 1.1;
+        margin-bottom: 15px;
+        text-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+      }
+
+      .hero-content p {
+        font-size: 20px;
+        margin: 0 0 40px 0;
+        color: #ccc;
+      }
+
+      .cta-btn {
+        background-color: var(--primary-color);
+        color: var(--secondary-color);
+        border: 2px solid var(--primary-color);
+        padding: 15px 40px;
+        border-radius: 50px;
+        font-size: 18px;
+        cursor: pointer;
+        text-transform: uppercase;
+        font-weight: bold;
+        transition: all 0.3s;
+      }
+
+      .cta-btn:hover {
+        background-color: transparent;
+        color: var(--primary-color);
+        box-shadow: 0 0 20px var(--shadow-light);
+      }
+
+      main {
+        padding: 80px 80px;
+      }
+
+      .value-section {
+        text-align: center;
+        background-color: var(--card-bg);
+        padding: 70px 0;
+        border-radius: 15px;
+        color: var(--dark-text-color);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .value-section h2 {
+        color: var(--background-color);
+        font-size: 40px;
+        margin-bottom: 60px;
+        text-transform: uppercase;
+      }
+
+      /* Desktop: 3 Columns */
+      .value-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 40px;
+        padding: 0 80px;
+      }
+
+      .value-item {
+        padding: 25px 15px;
+        border: none;
+        border-radius: 10px;
+        background-color: #f1f7fe;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+      }
+
+      .value-item:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        background-color: #e0ecff;
+      }
+
+      .value-icon {
+        font-size: 45px;
+        color: var(--primary-color);
+        margin-bottom: 15px;
+        display: block;
+      }
+
+      .value-item h3 {
+        font-size: 20px;
+        color: var(--dark-text-color);
+        margin-top: 10px;
+      }
+
+      .value-item p {
+        font-size: 15px;
+        color: #6c757d;
+      }
+
+      /* ======================== 4. Footer (3 Columns Style) ======================== */
+
+      /* Footer Container */
+      footer {
+        background-color: #0d102b;
+        color: #ccc;
+        padding: 40px 80px 60px 80px;
+        margin-top: 40px;
+        display: block;
+      }
+
+      /* Social Icons (Your original styles for Footer Icons) */
+      .social-icons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        padding: 10px 0 40px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 40px;
+      }
+
+      /* Icon style */
+      .social-icons a.icon {
+        background-color: var(--primary-color);
+        color: white;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        display: inline-flex;
+        width: 45px;
+        height: 45px;
+        margin: 0;
+        border-radius: 50%;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        transition: transform 0.3s;
+        position: relative;
+      }
+      .social-icons a.icon:hover {
+        transform: translateY(-5px) scale(1.1);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      /* លុប Tooltip */
+      .social-icons a.icon::after {
+        content: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+      }
+
+      /* 3 Column Grid */
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1.5fr;
+        gap: 50px;
+        text-align: left;
+      }
+
+      .footer-col h3 {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--secondary-color);
+        margin-bottom: 20px;
+      }
+
+      .footer-col.about p {
+        font-size: 14px;
+        line-height: 1.8;
+        color: #a0a0a0;
+      }
+
+      .footer-col.links a,
+      .footer-col.contact div {
+        display: block;
+        color: #a0a0a0;
+        text-decoration: none;
+        font-size: 14px;
+        margin-bottom: 10px;
+        transition: color 0.3s;
+      }
+
+      .footer-col.links a:hover {
+        color: var(--primary-color);
+      }
+
+      .footer-col.contact div strong {
+        color: var(--secondary-color);
+        font-weight: 500;
+      }
+
+      /* ======================== 5. Media Queries (Mobile Styles) ======================== */
+
+      @media (max-width: 768px) {
+        /* Header Mobile Adjustments */
+        header {
+          padding: 15px 20px;
+        }
+
+        .menu-toggle {
+          display: block;
+        }
+
+        nav {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(18, 20, 48, 0.95);
+          backdrop-filter: blur(5px);
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          transition: transform 0.5s ease-in-out;
+          transform: translateX(100%);
+          z-index: 1000;
+          padding: 0;
+        }
+
+        nav.active {
+          transform: translateX(0);
+        }
+
+        nav a {
+          font-size: 24px;
+          margin: 20px 0;
+          padding: 10px 0;
+          width: 80%;
+          text-align: center;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        nav a:last-child {
+          border-bottom: none;
+        }
+
+        /* Main Content & Value Section Mobile Adjustments */
+        .hero-content h1 {
+          font-size: 35px;
+        }
+        .hero-content {
+          padding: 30px 40px;
+        }
+
+        main {
+          padding: 40px 20px;
+        }
+
+        .value-section {
+          padding: 40px 0;
+        }
+
+        /* ការកែសម្រួលសម្រាប់តម្លៃស្នូលរបស់យើង */
+        .value-grid {
+          grid-template-columns: 1fr;
+          padding: 0 20px;
+          gap: 25px;
+        }
+
+        /* Footer Mobile Adjustments */
+        footer {
+          padding: 30px 20px;
+        }
+
+        .footer-grid {
+          grid-template-columns: 1fr;
+          gap: 40px;
+          text-align: center;
+        }
+
+        .footer-col.about p {
+          text-align: center;
+        }
+
+        .social-icons {
+          padding: 10px 0 30px 0;
+          margin-bottom: 30px;
+        }
+      }
+
+      /* ======================== 6. Auto-Closing Pop-up (NEW) ======================== */
+
+      .auto-close-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        opacity: 0;
+        transition: opacity 0.4s ease-in-out;
+      }
+
+      .auto-close-modal-overlay.active {
+        display: flex;
+        opacity: 1;
+      }
+
+      .auto-close-modal {
+        background-color: var(--card-bg);
+        padding: 35px 25px;
+        border-radius: 10px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+        max-width: 90%;
+        width: 400px;
+        position: relative;
+        text-align: center;
+        color: var(--dark-text-color);
+        transform: scale(0.9);
+        transition: transform 0.4s ease-out;
+      }
+
+      .auto-close-modal-overlay.active .auto-close-modal {
+        transform: scale(1);
+      }
+
+      .auto-close-modal h3 {
+        font-size: 24px;
+        color: #dc3545;
+        margin-bottom: 10px;
+      }
+
+      .auto-close-modal p {
+        font-size: 16px;
+        color: #343a40;
+        margin-bottom: 25px;
+      }
+
+      /* Modal Timer Indicator (Optional: A visual countdown bar) */
+      .timer-bar {
+        height: 5px;
+        background-color: var(--primary-color);
+        width: 100%;
+        margin-top: 20px;
+        /* ⚠️ animation-duration នឹងត្រូវកែដោយ JavaScript ទៅតាម data-close-delay */
+        animation: countdown 5s linear forwards;
+      }
+
+      /* Keyframe for the countdown effect */
+      @keyframes countdown {
+        from {
+          width: 100%;
+        }
+        to {
+          width: 0%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo">PCH</div>
+      <div class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+      </div>
+
+      <nav id="mainNav">
+        <a href="index.html"><i class="fa-solid fa-house-user"></i> ទំព័រដើម</a>
+        <a href="gallery.html"><i class="fa-solid fa-video"></i> វីដេអូ</a>
+        <a href="gallery.html"><i class="fa-solid fa-images"></i> រូបភាព</a>
+        <a href="Contact Us.html"
+          ><i class="fa-solid fa-phone-volume"></i> ​ទំនាក់ទំនង
+        </a>
+        <a href="FAQ.html"
+          ><i class="fa-solid fa-comment-sms"></i> សំណួរដែលសួរញឹកញាប់
+        </a>
+      </nav>
+    </header>
+
+    <div class="hero-section">
+      <div class="hero-content">
+        <h1>មង្គលាចារ្យ ប៉ោ ឆេងហ៊ួត</h1>
+        <p>មានទទួលភ្លេង ប្រពៃណី ពិណពាទ្យវង់តូចធំ.មហោរី ស្មូត ខេត្តតាកែវ​</p>
+
+        <p>Metfone 0884576662​ - Smart 0968922242</p>
+        <button class="cta-btn">ស្វែងយល់បន្ថែម</button>
+      </div>
+    </div>
+
+    <main>
+      <section class="value-section">
+        <h2>តម្លៃស្នូលរបស់យើង</h2>
+
+        <div class="value-grid">
+          <div class="value-item">
+            <span class="value-icon"><i class="fas fa-gem"></i></span>
+            <h3>ផលិតផលដើម</h3>
+            <p>
+              ធានាគុណភាពដើម 100% និងការវេចខ្ចប់យ៉ាងប្រណីតពីក្រុមហ៊ុនផលិតផ្ទាល់។
+            </p>
+          </div>
+
+          <div class="value-item">
+            <span class="value-icon"><i class="fas fa-shipping-fast"></i></span>
+            <h3>ដឹកជញ្ជូនលឿន</h3>
+            <p>
+              ដឹកជញ្ជូនរហ័សទាន់ចិត្ត និងឥតគិតថ្លៃសម្រាប់ការបញ្ជាទិញចាប់ពី $50
+              ឡើងទៅ។
+            </p>
+          </div>
+
+          <div class="value-item">
+            <span class="value-icon"><i class="fas fa-lock"></i></span>
+            <h3>សុវត្ថិភាពការទូទាត់</h3>
+            <p>
+              ប្រព័ន្ធទូទាត់ប្រាក់មានសុវត្ថិភាពខ្ពស់ ធានាដោយបច្ចេកវិទ្យា SSL
+              ថ្មីបំផុត។
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="social-icons">
+        <a href="#" class="icon facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="icon twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="icon youtube"><i class="fab fa-youtube"></i></a>
+        <a href="#" class="icon instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="icon linkedin"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="icon tiktok"><i class="fab fa-tiktok"></i></a>
+        <a href="#" class="icon telegram"
+          ><i class="fab fa-telegram-plane"></i
+        ></a>
+        <a href="#" class="icon line"><i class="fab fa-line"></i></a>
+        <a href="#" class="icon chat"><i class="fas fa-comment-dots"></i></a>
+        <a href="#" class="icon wechat"><i class="fab fa-weixin"></i></a>
+        <a href="tel:+85512345678" class="icon phone"
+          ><i class="fas fa-phone"></i
+        ></a>
+        <a href="mailto:your.email@example.com" class="icon mail"
+          ><i class="fas fa-envelope"></i
+        ></a>
+      </div>
+
+      <div class="footer-grid">
+        <div class="footer-col about">
+          <h3>អំពីយើង</h3>
+          <p>មានទទួលភ្លេង ប្រពៃណី ពិណពាទ្យវង់តូចធំ.មហោរី ស្មូត ខេត្តតាកែវ​</p>
+
+          <p>Metfone 0884576662​ - Smart 0968922242</p>
+          <div style="margin-top: 15px">
+            PCH © 2025, made with ❤️ by PTPERSONAL Team. All Rights Reserved.
+          </div>
+        </div>
+
+        <div class="footer-col links">
+          <h3>តំណភ្ជាប់រហ័ស</h3>
+          <a href="#">ជំនួយ</a>
+          <a href="#">ប្លុក</a>
+          <a href="#">គោលការណ៍</a>
+          <a href="#">ទំនាក់ទំនង</a>
+        </div>
+
+        <div class="footer-col contact">
+          <h3>ទំនាក់ទំនង</h3>
+          <div>សូមទំនាក់ទំនងមកយើងខ្ញុំដើម្បីសួរព័ត៌មានបន្ថែមទៀត:</div>
+          <div style="margin-top: 15px">
+            Email: <strong>info@PCH.com</strong>
+          </div>
+          <div>Phone: Metfone <strong>+855 88 457 66 62​</strong></div>
+          <div>Phone: Smart <strong>+855 96 892 22 42</strong></div>
+        </div>
+      </div>
+    </footer>
+
+    <div
+      class="auto-close-modal-overlay"
+      id="autoCloseModalOverlay"
+      data-show-delay="5000"
+      data-close-delay="10000"
+    >
+      <div class="auto-close-modal">
+        <div class="modal-content">
+          <h3>🔔 ការជូនដំណឹងសំខាន់!</h3>
+          <p>
+            សូមអភ័យទោសចំពោះការរំខាន!
+            ទំព័រនេះនឹងបិទដោយស្វ័យប្រវត្តិក្នុងរយៈពេលបន្តិចទៀត...
+          </p>
+          <button class="cta-btn" onclick="closeAutoModal()">បិទឥឡូវនេះ</button>
+        </div>
+        <div class="timer-bar" id="timerBar"></div>
+      </div>
+    </div>
+
+    <script>
+      // Global function to close the modal manually
+      function closeAutoModal() {
+        const modalOverlay = document.getElementById("autoCloseModalOverlay");
+        const timerBar = document.getElementById("timerBar");
+        if (modalOverlay) {
+          modalOverlay.classList.remove("active");
+        }
+        if (timerBar) {
+          // Stop the countdown animation and hide the bar
+          timerBar.style.animationPlayState = "paused";
+          timerBar.style.width = "0%";
+        }
+        // Clear any pending automatic closing operation to prevent issues
+        clearTimeout(autoCloseTimer);
+      }
+
+      let autoCloseTimer; // Variable to hold the timer ID
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const menuToggle = document.getElementById("menuToggle");
+        const mainNav = document.getElementById("mainNav");
+        const autoModalOverlay = document.getElementById(
+          "autoCloseModalOverlay"
+        );
+
+        // --- Mobile Menu Toggle Functionality (Your Original Code) ---
+        menuToggle.addEventListener("click", () => {
+          mainNav.classList.toggle("active");
+
+          const icon = menuToggle.querySelector("i");
+          if (mainNav.classList.contains("active")) {
+            icon.classList.remove("fa-bars");
+            icon.classList.add("fa-times");
+          } else {
+            icon.classList.remove("fa-times");
+            icon.classList.add("fa-bars");
+          }
+        });
+
+        document.querySelectorAll("#mainNav a").forEach((link) => {
+          link.addEventListener("click", () => {
+            mainNav.classList.remove("active");
+            menuToggle.querySelector("i").classList.remove("fa-times");
+            menuToggle.querySelector("i").classList.add("fa-bars");
+          });
+        });
+
+        // 🌟 NEW Auto-Closing Modal Logic 🌟
+        if (autoModalOverlay) {
+          // អានតម្លៃពី Data Attributes ក្នុង HTML (Data-Show-Delay និង Data-Close-Delay)
+          const showDelay =
+            parseInt(autoModalOverlay.getAttribute("data-show-delay")) || 5000;
+          const closeDelay =
+            parseInt(autoModalOverlay.getAttribute("data-close-delay")) || 5000;
+
+          const timerBar = document.getElementById("timerBar");
+          if (timerBar) {
+            // កំណត់រយៈពេល Animation សម្រាប់ Timer Bar ទៅតាមតម្លៃ Close Delay
+            timerBar.style.animationDuration = `${closeDelay}ms`;
+          }
+
+          // Step 1: Timer to SHOW the Modal (after showDelay)
+          setTimeout(() => {
+            if (autoModalOverlay) {
+              autoModalOverlay.classList.add("active");
+              // Reset timer bar animation if it's already run once
+              if (timerBar) {
+                timerBar.style.animation = `countdown ${closeDelay}ms linear forwards`;
+              }
+
+              // Step 2: Timer to CLOSE the Modal automatically (closeDelay after it showed)
+              autoCloseTimer = setTimeout(() => {
+                closeAutoModal(); // Use the global function to close
+              }, closeDelay);
+            }
+          }, showDelay);
+        }
+      });
+    </script>
+  </body>
+</html>

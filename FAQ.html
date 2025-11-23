@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FAQ - CREATER (Styled)</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" />
+
+    <style>
+      /* ========================================= */
+      /* 1. GLOBAL & COLORS (Consistent) */
+      /* ========================================= */
+      :root {
+        /* Define brand colors */
+        --color-primary: #004d99; /* Deep Blue - Main Accent */
+        --color-secondary: #ff6f61; /* Coral/Red - Highlight/Korean Accent */
+        --color-khmer: #008080; /* Teal - Khmer Accent */
+        --color-background: #f4f4f4; /* Light Grey Background */
+        --color-text: #333; /* Dark Grey Text */
+        --color-border: #e0e0e0;
+        --color-white: #ffffff;
+        --menu-height: 60px; /* Standard menu height */
+      }
+
+      body {
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        /* Padding to prevent content from hiding under the fixed menu */
+        padding-top: var(--menu-height);
+        background: linear-gradient(135deg, #1d003b 0%, #004b7a 100%);
+        color: var(--color-text);
+      }
+
+      /* Container for the whole page content */
+      .faq-container {
+        max-width: 1000px;
+        margin: 40px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Styling for the main headings */
+      h1 {
+        color: var(--color-primary);
+        border-bottom: 2px solid var(--color-border);
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        font-size: 2em;
+      }
+
+      /* Styling for the language sections */
+      section {
+        padding: 20px 0;
+      }
+
+      /* Separator line between languages */
+      .language-separator {
+        border: none;
+        height: 1px;
+        background-color: #ddd;
+        margin: 30px 0;
+      }
+
+      /* ------------------------------------------- */
+      /* 2. NAVIGATION BAR STYLES */
+      /* ------------------------------------------- */
+      .navbar {
+        background-color: var(--color-primary);
+        color: var(--color-white);
+        height: var(--menu-height);
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .logo {
+        font-size: 1.8em;
+        font-weight: 700;
+        text-decoration: none;
+        color: var(--color-white);
+        margin-right: 30px;
+      }
+
+      .nav-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+      }
+
+      .nav-item {
+        position: relative;
+      }
+
+      .nav-link {
+        display: block;
+        padding: 20px 15px;
+        text-decoration: none;
+        color: var(--color-white);
+        font-weight: 500;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: var(--color-secondary);
+      }
+
+      /* Sub-Menu (unchanged) */
+      .sub-menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: var(--color-white);
+        border: 1px solid var(--color-border);
+        border-top: none;
+        min-width: 200px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 2000;
+        display: none;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+      }
+
+      .nav-item:hover > .sub-menu {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .sub-menu-item a {
+        padding: 12px 15px;
+        color: var(--color-primary);
+        text-decoration: none;
+        display: block;
+        font-weight: normal;
+      }
+
+      .sub-menu-item a:hover {
+        background-color: var(--color-background);
+        color: var(--color-secondary);
+      }
+
+      .lang-selector {
+        margin-left: auto;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9em;
+        /* NEW: Set to flex to align flag icons and text vertically if needed */
+        display: flex;
+        align-items: center;
+      }
+      .lang-selector a {
+        color: var(--color-secondary);
+        text-decoration: none;
+        margin: 0 8px; /* Slightly more space */
+        font-weight: 600;
+        /* NEW: Display inline-flex to align flag and text */
+        display: inline-flex;
+        align-items: center;
+        line-height: 1; /* For better vertical alignment */
+      }
+      /* NEW: Style for the Flag Icon */
+      .lang-selector a .flag-icon {
+        font-size: 1.2em; /* Adjust size if needed */
+        margin-right: 4px; /* Space between flag and text */
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+        border-radius: 2px;
+      }
+
+
+      /* ------------------------------------------- */
+      /* 3. ACCORDION (DETAILS/SUMMARY) STYLING (unchanged) */
+      /* ------------------------------------------- */
+      /* ... (Accordion styles remain the same) ... */
+      
+      /* Style for the visible question (Summary) */
+      summary {
+        padding: 15px;
+        font-weight: bold;
+        cursor: pointer;
+        outline: none; /* Removes the focus outline */
+        list-style: none; /* Hides the default arrow in some browsers */
+        color: #1a1a1a;
+        transition: background-color 0.2s;
+      }
+
+      /* Adds a custom arrow indicator for the summary */
+      summary::marker,
+      summary::-webkit-details-marker {
+        display: none;
+      }
+      summary::before {
+        content: "+";
+        display: inline-block;
+        margin-right: 10px;
+        color: #007bff; /* Arrow color */
+        font-size: 1.2em;
+        transition: transform 0.2s;
+      }
+
+      /* When the details are open, rotate the arrow to look like an X or V */
+      details[open] summary::before {
+        content: "−"; /* Change to minus sign */
+        color: #dc3545;
+      }
+
+      /* Style for the Answer content */
+      .faq-answer {
+        padding: 15px;
+        padding-top: 0;
+        border-top: 1px solid var(--color-border);
+        background-color: #ffffff;
+        color: #555;
+        animation: slideDown 0.3s ease-out; /* Simple transition/animation */
+      }
+
+      /* Keyframe animation for a smooth slide-down effect (CSS only visual effect) */
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Language-specific color for H1 and arrow */
+      #faq-en h1,
+      #faq-en details summary::before {
+        color: #007bff;
+      }
+      #faq-kh h1,
+      #faq-kh details summary::before {
+        color: var(--color-khmer);
+      }
+      #faq-ko h1,
+      #faq-ko details summary::before {
+        color: var(--color-secondary);
+      }
+
+      /* Khmer Font Specifics */
+      #faq-kh {
+        font-family: "Khmer OS", "Arial", sans-serif;
+      }
+      /* Korean Font Specifics */
+      #faq-ko {
+        font-family: "Malgun Gothic", "Dotum", sans-serif;
+      }
+
+      /* ------------------------------------------- */
+      /* 4. LANGUAGE SWITCHER & HOME BUTTON (unchanged) */
+      /* ------------------------------------------- */
+      /* ... (Other styles remain the same) ... */
+
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="#" class="logo">CREATER</a>
+
+      <ul class="nav-list">
+        <li class="nav-item">
+          <a href="index.html" class="nav-link">Home</a>
+        </li>
+      </ul>
+
+      <div class="lang-selector">
+        Lang: 
+        <a href="#faq-en">
+            <span class="flag-icon flag-icon-us"></span>EN
+        </a> 
+        | 
+        <a href="#faq-kh">
+            <span class="flag-icon flag-icon-kh"></span>KH
+        </a> 
+        |
+        <a href="#faq-ko">
+            <span class="flag-icon flag-icon-kr"></span>KO
+        </a>
+      </div>
+    </nav>
+
+    <div class="creative-btn-container">
+      </div>
+
+    <div class="faq-container">
+      <section id="faq-en">
+        <h1>Frequently Asked Questions (FAQ)</h1>
+
+        <details>
+          <summary>What types of services does **CREATER** offer?</summary>
+          <div class="faq-answer">
+            <p>
+              CREATER specializes in a blend of creative and technological
+              solutions, including web development, mobile app design, branding,
+              and digital marketing strategy. We customize our approach for
+              every client to ensure maximum impact.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            How do you handle project timelines and communication?
+          </summary>
+          <div class="faq-answer">
+            <p>
+              We utilize **Agile methodologies**, ensuring transparency
+              throughout the process. Timelines are set after a discovery phase,
+              and clients are updated weekly through dedicated project managers
+              and reporting tools.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Can **CREATER** work with international clients?</summary>
+          <div class="faq-answer">
+            <p>
+              Yes. We are structured to serve clients globally, with team
+              members experienced in cross-cultural communication and various
+              time zones. Please refer to our **Contact Us** page for
+              region-specific details and international service policies.
+            </p>
+          </div>
+        </details>
+      </section>
+
+      <hr class="language-separator" />
+
+      <section id="faq-kh">
+        <h1>សំណួរដែលគេសួរញឹកញាប់ (FAQ)</h1>
+
+        <details>
+          <summary>ស៖ តើ **CREATER** ផ្តល់សេវាកម្មប្រភេទអ្វីខ្លះ?</summary>
+          <div class="faq-answer">
+            <p>
+              ច៖ CREATER ផ្តល់ជូននូវដំណោះស្រាយបច្ចេកវិទ្យា
+              និងការច្នៃប្រឌិតរួមគ្នា រួមមាន ការអភិវឌ្ឍគេហទំព័រ
+              ការរចនាកម្មវិធីទូរស័ព្ទ ការបង្កើតម៉ាកយីហោ (Branding)
+              និងយុទ្ធសាស្រ្តទីផ្សារឌីជីថល។
+              យើងប្ដូរវិធីសាស្រ្តរបស់យើងតាមតម្រូវការរបស់អតិថិជនម្នាក់ៗដើម្បីធានាបាននូវលទ្ធផលល្អបំផុត។
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            ស៖ តើអ្នកគ្រប់គ្រងកាលវិភាគគម្រោង និងការទំនាក់ទំនងដោយរបៀបណា?
+          </summary>
+          <div class="faq-answer">
+            <p>
+              ច៖ យើងប្រើប្រាស់វិធីសាស្ត្រ **Agile** (រហ័សរហួន)
+              ដែលធានានូវតម្លាភាពពេញមួយដំណើរការ។
+              កាលវិភាគត្រូវបានកំណត់បន្ទាប់ពីដំណាក់កាលស្វែងយល់
+              ហើយអតិថិជនត្រូវបានជូនដំណឹងជារៀងរាល់សប្តាហ៍តាមរយៈអ្នកគ្រប់គ្រងគម្រោង។
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            ស៖ តើ **CREATER** អាចធ្វើការជាមួយអតិថិជនអន្តរជាតិបានទេ?
+          </summary>
+          <div class="faq-answer">
+            <p>
+              ច៖ បាទ/ចាស៎។ យើងត្រូវបានរៀបចំឡើងដើម្បីបម្រើអតិថិជនទូទាំងពិភពលោក
+              ដោយមានសមាជិកក្រុមដែលមានបទពិសោធន៍ក្នុងការទំនាក់ទំនងឆ្លងវប្បធម៌
+              និងតំបន់ពេលវេលាផ្សេងៗគ្នា។ សូមមើលទំព័រ **"ទំនាក់ទំនងយើងខ្ញុំ"**
+              សម្រាប់ព័ត៌មានលម្អិតតាមតំបន់។
+            </p>
+          </div>
+        </details>
+      </section>
+
+      <hr class="language-separator" />
+
+      <section id="faq-ko">
+        <h1>자주 묻는 질문 (FAQ)</h1>
+
+        <details>
+          <summary>Q: **CREATER**는 어떤 종류의 서비스를 제공하나요?</summary>
+          <div class="faq-answer">
+            <p>
+              A: CREATER는 웹 개발, 모바일 앱 디자인, 브랜딩 및 디지털 마케팅
+              전략을 포함한 창의적이고 기술적인 솔루션을 전문적으로 제공합니다.
+              모든 고객에게 최대의 효과를 보장하기 위해 맞춤형 접근 방식을
+              적용합니다.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            Q: 프로젝트 일정 관리 및 커뮤니케이션은 어떻게 이루어지나요?
+          </summary>
+          <div class="faq-answer">
+            <p>
+              A: 저희는 투명성을 보장하는 **애자일(Agile) 방법론**을 활용합니다.
+              일정은 심층적인 탐색 단계를 거쳐 설정되며, 전담 프로젝트 관리자를
+              통해 고객에게 매주 업데이트를 제공합니다.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Q: **CREATER**는 해외 고객과도 협력할 수 있나요?</summary>
+          <div class="faq-answer">
+            <p>
+              A: 네, 그렇습니다. 저희는 전 세계 고객에게 서비스를 제공하도록
+              구성되어 있으며, 팀원들은 다양한 시간대 및 다문화 커뮤니케이션에
+              경험이 풍부합니다. 지역별 세부 정보는 **'문의하기'** 페이지를
+              참조해 주십시오.
+            </p>
+          </div>
+        </details>
+      </section>
+    </div>
+
+    <script>
+      // Dictionary for translations (វចនានុក្រមសម្រាប់ការបកប្រែ)
+      const translations = {
+        km: "ទំព័រដើម",
+        en: "Homepage",
+        ko: "홈페이지",
+      };
+
+      // Function to change the button text (មុខងារប្តូរអត្ថបទ)
+      function setLanguage(langCode) {
+        // The creative-btn is commented out, so this function is mostly just for language tracking now.
+        const buttonElement = document.getElementById("myButtonLink");
+
+        if (buttonElement && translations[langCode]) {
+          buttonElement.textContent = translations[langCode];
+        }
+
+        // 2. Adjust font size if necessary for the specific language
+        if (buttonElement) {
+          if (langCode === "km") {
+            buttonElement.style.fontSize = "22px"; // សម្រាប់អក្សរខ្មែរ
+          } else {
+            buttonElement.style.fontSize = "18px";
+          }
+        }
+
+        // Use the original language buttons to jump to the relevant section
+        const sectionId = "faq-" + langCode;
+        document
+          .getElementById(sectionId)
+          ?.scrollIntoView({ behavior: "smooth" });
+      }
+
+      // Set default language on load (កំណត់ភាសាលំនាំដើមពេលផ្ទុក)
+      document.addEventListener("DOMContentLoaded", () => {
+        // Find the language sections on load and set the scroll behavior.
+        // We set the default language to English for immediate visibility.
+        setLanguage("en");
+
+        // This ensures the page starts at the top, clearing the fixed nav
+        window.scrollTo(0, 0);
+      });
+    </script>
+  </body>
+</html>
